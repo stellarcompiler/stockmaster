@@ -1,6 +1,7 @@
 // app.js - Shared utilities and API wrapper
 const API_BASE = '/api'; // update to your backend URL if needed
 
+
 async function apiFetch(path, opts = {}) {
   const url = path.startsWith('http') ? path : `${API_BASE}${path}`;
   const options = { headers: { 'Content-Type': 'application/json' }, ...opts };
