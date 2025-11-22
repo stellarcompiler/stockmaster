@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Locations — StockMaster</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+<header class="header">
+  <div class="header-left">
+    <img src="/mnt/data/6987ae49-4c32-46b9-b887-a5a521470603.png" alt="logo" />
+    <div class="header-title">StockMaster</div>
+  </div>
+  <nav class="navbar">
+    <a href="warehouses.html">Warehouses</a>
+    <a href="locations.html">Locations</a>
+  </nav>
+  <div class="header-right">Profile</div>
+</header>
+
+<main class="main">
+  <div class="top">
+    <div class="title">Locations</div>
+    <div class="actions">
+      <button id="newLoc" class="btn">New Location</button>
+    </div>
+  </div>
+
+  <section class="panel">
+    <table class="table">
+      <thead><tr><th>Name</th><th>Warehouse</th><th>Code</th><th>Actions</th></tr></thead>
+      <tbody id="loc-body"><tr><td colspan="4" class="empty">Loading...</td></tr></tbody>
+    </table>
+  </section>
+</main>
+
+<script src="app.js"></script>
+<script src="locations.js" defer></script>
+</body>
+</html>

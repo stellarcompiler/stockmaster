@@ -1,94 +1,67 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>StockMaster — Dashboard</title>
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
-
-<!-- ===================== HEADER / NAV ===================== -->
 <header class="header">
   <div class="header-left">
     <img src="/mnt/data/6987ae49-4c32-46b9-b887-a5a521470603.png" alt="logo" />
     <div class="header-title">StockMaster</div>
   </div>
-
   <nav class="navbar">
     <a href="index.html">Dashboard</a>
+    <a href="products.html">Products</a>
     <a href="receipts.html">Receipts</a>
     <a href="deliveries.html">Deliveries</a>
-    <a href="ledger.html">Move History</a>
     <a href="stock.html">Stock</a>
+    <a href="ledger.html">Move History</a>
     <a href="warehouses.html">Warehouses</a>
     <a href="locations.html">Locations</a>
   </nav>
-
-  <div class="header-right">
-    <span>Profile</span>
-  </div>
+  <div class="header-right">Profile</div>
 </header>
 
-<!-- ===================== MAIN CONTENT ===================== -->
 <main class="main">
   <div class="top">
     <div class="title">Dashboard</div>
     <div class="actions">
-      <input class="input" id="search" placeholder="Search..." />
-      <button id="newBtn" class="btn">New</button>
+      <input class="input" id="dash-search" placeholder="Search recent moves..." />
     </div>
   </div>
 
-  <!-- KPI CARDS -->
   <section class="kpi-row" id="kpis">
     <div class="card">
       <div class="kpi-title">Total Products</div>
-      <div class="kpi-value" id="total-products">—</div>
+      <div class="kpi-value" id="k-total">—</div>
     </div>
-
     <div class="card">
       <div class="kpi-title">Low Stock</div>
-      <div class="kpi-value" id="low-stock">—</div>
+      <div class="kpi-value" id="k-low">—</div>
     </div>
-
     <div class="card">
       <div class="kpi-title">Pending Receipts</div>
-      <div class="kpi-value" id="pending-receipts">—</div>
+      <div class="kpi-value" id="k-receipts">—</div>
     </div>
-
     <div class="card">
       <div class="kpi-title">Pending Deliveries</div>
-      <div class="kpi-value" id="pending-deliveries">—</div>
+      <div class="kpi-value" id="k-deliveries">—</div>
     </div>
   </section>
 
-  <!-- Recent Activity -->
   <section class="panel">
-    <div class="panel-header" style="margin-bottom: 12px; font-weight: 600; color: var(--muted);">
-      Recent Activity
-    </div>
-
+    <div style="font-weight:600;color:var(--muted);margin-bottom:8px">Recent Moves</div>
     <table class="table">
-      <thead>
-        <tr>
-          <th>Time</th>
-          <th>Type</th>
-          <th>Product</th>
-          <th>Qty</th>
-          <th>Ref</th>
-        </tr>
-      </thead>
-      <tbody id="activity-body">
-        <tr><td colspan="5" class="empty">Loading...</td></tr>
-      </tbody>
+      <thead><tr><th>Date</th><th>Type</th><th>Product</th><th>Qty</th><th>From</th><th>To</th></tr></thead>
+      <tbody id="recent-body"><tr><td colspan="6" class="empty">Loading...</td></tr></tbody>
     </table>
   </section>
 </main>
 
-<!-- Scripts -->
 <script src="app.js"></script>
 <script src="dashboard.js" defer></script>
-
 </body>
 </html>

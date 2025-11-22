@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Warehouses — StockMaster</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+<header class="header">
+  <div class="header-left">
+    <img src="/mnt/data/6987ae49-4c32-46b9-b887-a5a521470603.png" alt="logo" />
+    <div class="header-title">StockMaster</div>
+  </div>
+  <nav class="navbar">
+    <a href="index.html">Dashboard</a>
+    <a href="warehouses.html">Warehouses</a>
+  </nav>
+  <div class="header-right">Profile</div>
+</header>
+
+<main class="main">
+  <div class="top">
+    <div class="title">Warehouses</div>
+    <div class="actions">
+      <button id="newWh" class="btn">New Warehouse</button>
+    </div>
+  </div>
+
+  <section class="panel">
+    <table class="table">
+      <thead><tr><th>Short Code</th><th>Name</th><th>Address</th><th>Actions</th></tr></thead>
+      <tbody id="wh-body"><tr><td colspan="4" class="empty">Loading...</td></tr></tbody>
+    </table>
+  </section>
+</main>
+
+<script src="app.js"></script>
+<script src="warehouses.js" defer></script>
+</body>
+</html>

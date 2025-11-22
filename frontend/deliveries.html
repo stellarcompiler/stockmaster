@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Deliveries — StockMaster</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+<header class="header">
+  <div class="header-left">
+    <img src="/mnt/data/6987ae49-4c32-46b9-b887-a5a521470603.png" alt="logo" />
+    <div class="header-title">StockMaster</div>
+  </div>
+  <nav class="navbar">
+    <a href="index.html">Dashboard</a>
+    <a href="receipts.html">Receipts</a>
+    <a href="deliveries.html">Deliveries</a>
+  </nav>
+  <div class="header-right">Profile</div>
+</header>
+
+<main class="main">
+  <div class="top">
+    <div class="title">Deliveries</div>
+    <div class="actions">
+      <input class="input" id="delivery-search" placeholder="Search deliveries..." />
+      <button id="newDelivery" class="btn">New</button>
+    </div>
+  </div>
+
+  <section class="panel">
+    <table class="table">
+      <thead><tr><th>Reference</th><th>From</th><th>To</th><th>Contact</th><th>Schedule</th><th>Status</th><th>Actions</th></tr></thead>
+      <tbody id="deliveries-body"><tr><td colspan="7" class="empty">Loading...</td></tr></tbody>
+    </table>
+  </section>
+</main>
+
+<script src="app.js"></script>
+<script src="deliveries.js" defer></script>
+</body>
+</html>

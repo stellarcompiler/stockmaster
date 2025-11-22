@@ -7,26 +7,17 @@
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
-
 <header class="header">
   <div class="header-left">
     <img src="/mnt/data/6987ae49-4c32-46b9-b887-a5a521470603.png" alt="logo" />
     <div class="header-title">StockMaster</div>
   </div>
-
   <nav class="navbar">
     <a href="index.html">Dashboard</a>
     <a href="receipts.html">Receipts</a>
     <a href="deliveries.html">Deliveries</a>
-    <a href="ledger.html">Move History</a>
-    <a href="stock.html">Stock</a>
-    <a href="warehouses.html">Warehouses</a>
-    <a href="locations.html">Locations</a>
   </nav>
-
-  <div class="header-right">
-    <span>Profile</span>
-  </div>
+  <div class="header-right">Profile</div>
 </header>
 
 <main class="main">
@@ -40,12 +31,8 @@
 
   <section class="panel">
     <table class="table">
-      <thead>
-        <tr><th>Reference</th><th>Vendor</th><th>Date</th><th>Status</th><th>Actions</th></tr>
-      </thead>
-      <tbody id="receipts-body">
-        <tr><td colspan="5" class="empty">Loading...</td></tr>
-      </tbody>
+      <thead><tr><th>Reference</th><th>From</th><th>To</th><th>Contact</th><th>Schedule</th><th>Status</th><th>Actions</th></tr></thead>
+      <tbody id="receipts-body"><tr><td colspan="7" class="empty">Loading...</td></tr></tbody>
     </table>
   </section>
 </main>

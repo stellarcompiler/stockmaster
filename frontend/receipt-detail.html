@@ -7,19 +7,16 @@
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
-
 <header class="header">
   <div class="header-left">
     <img src="/mnt/data/6987ae49-4c32-46b9-b887-a5a521470603.png" alt="logo" />
     <div class="header-title">StockMaster</div>
   </div>
   <nav class="navbar">
-    <a href="index.html">Dashboard</a>
     <a href="receipts.html">Receipts</a>
-    <a href="deliveries.html">Deliveries</a>
-    <a href="ledger.html">Move History</a>
+    <a href="index.html">Dashboard</a>
   </nav>
-  <div class="header-right"><span>Profile</span></div>
+  <div class="header-right">Profile</div>
 </header>
 
 <main class="main">
@@ -34,12 +31,24 @@
   <section class="panel">
     <div class="form-row">
       <div class="input-field">
-        <label class="label">Vendor</label>
-        <input id="vendor" class="input-text" placeholder="Vendor name" />
+        <label class="label">From (Vendor)</label>
+        <input id="from_contact" class="input-text" />
       </div>
       <div class="input-field">
         <label class="label">Reference</label>
-        <input id="ref" class="input-text" placeholder="Optional reference" />
+        <input id="reference" class="input-text" placeholder="auto-generated" />
+      </div>
+      <div class="input-field">
+        <label class="label">To Warehouse</label>
+        <select id="to_warehouse" class="input-text"></select>
+      </div>
+      <div class="input-field">
+        <label class="label">To Location</label>
+        <select id="to_location" class="input-text"></select>
+      </div>
+      <div class="input-field">
+        <label class="label">Schedule Date</label>
+        <input id="schedule_date" type="date" class="input-text" />
       </div>
     </div>
 
@@ -49,7 +58,9 @@
         <thead><tr><th>Product</th><th>Qty</th><th></th></tr></thead>
         <tbody id="items-body"><tr><td colspan="3" class="empty">No items</td></tr></tbody>
       </table>
-      <div style="margin-top:10px"><button id="addItem" class="btn">Add Item</button></div>
+      <div style="margin-top:10px">
+        <button id="addItem" class="btn">Add Item</button>
+      </div>
     </div>
   </section>
 </main>

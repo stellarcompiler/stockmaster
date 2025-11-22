@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Stock — StockMaster</title>
+  <title>Products — StockMaster</title>
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
@@ -14,29 +14,30 @@
   </div>
   <nav class="navbar">
     <a href="index.html">Dashboard</a>
-    <a href="stock.html">Stock</a>
     <a href="products.html">Products</a>
+    <a href="stock.html">Stock</a>
   </nav>
   <div class="header-right">Profile</div>
 </header>
 
 <main class="main">
   <div class="top">
-    <div class="title">Stock</div>
+    <div class="title">Products</div>
     <div class="actions">
-      <input class="input" id="stock-search" placeholder="Search product..." />
+      <input class="input" id="product-search" placeholder="Search product..." />
+      <button id="new-product" class="btn">New Product</button>
     </div>
   </div>
 
   <section class="panel">
     <table class="table">
-      <thead><tr><th>Product</th><th>SKU</th><th>On Hand</th><th>Free to Use</th><th>Reorder</th><th>Actions</th></tr></thead>
-      <tbody id="stock-body"><tr><td colspan="6" class="empty">Loading...</td></tr></tbody>
+      <thead><tr><th>Product</th><th>SKU</th><th>UOM</th><th>Unit Cost</th><th>Category</th><th>Actions</th></tr></thead>
+      <tbody id="products-body"><tr><td colspan="6" class="empty">Loading...</td></tr></tbody>
     </table>
   </section>
 </main>
 
 <script src="app.js"></script>
-<script src="stock.js" defer></script>
+<script src="products.js" defer></script>
 </body>
 </html>

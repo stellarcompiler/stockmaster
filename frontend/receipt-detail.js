@@ -1,45 +1,56 @@
 // receipt-detail.js
-const rparams = new URLSearchParams(window.location.search);
-const receiptId = rparams.get('id');
+const rid = new URLSearchParams(window.location.search).get('id');
 let items = [];
 
-function renderItems(){
-  const tbody = document.getElementById('items-body');
-  tbody.innerHTML = '';
-  if(!items.length){
-    tbody.innerHTML = '<tr><td colspan="3" class="empty">No items</td></tr>';
-    return;
-  }
-  items.forEach((it, idx)=>{
-    const tr = document.createElement('tr');
-    tr.innerHTML = `<td>${it.product_name || it.product_id}</td><td>${it.qty}</td>
-      <td><button class="btn secondary" data-i="${idx}">Remove</button></td>`;
-    tbody.appendChild(tr);
-  });
-  tbody.querySelectorAll('button[data-i]').forEach(b => {
-    b.addEventListener('click', e => {
-      const i = +e.target.dataset.i;
-      items.splice(i,1);
-      renderItems();
-    });
-  });
+async function loadWarehousesForSelect(){
+  try{
+    const whs = await apiFetch('/warehouses');
+    const sel = el('#to_warehouse'); sel.innerHTML = '<option value="">Select</option>';
+    whs.forEach(w => sel.insertAdjacentHTML('beforeend', `<option value="${w.id}">${w.wh_name}</option>`));
+  }catch(e){ console.warn(e); }
 }
 
-document.getElementById('addItem').addEventListener('click', () => {
-  const pid = prompt('Product id or name');
-  if(!pid) return;
-  const qty = prompt('Quantity');
-  if(!qty || isNaN(qty)) { showToast('Invalid qty','error'); return; }
-  items.push({product_id: pid, product_name: pid, qty: parseInt(qty,10)});
+async function loadLocations(warehouseId){
+  const sel = el('#to_location'); sel.innerHTML = '<option value="">Select</option>';
+  if(!warehouseId) return;
+  const locs = await apiFetch(`/locations?warehouse_id=${warehouseId}`);
+  locs.forEach(l => sel.insertAdjacentHTML('beforeend', `<option value="${l.id}">${l.loc_name}</option>`));
+}
+
+function renderItems(){
+  const tb = el('#items-body'); tb.innerHTML = '';
+  if(!items.length){ tb.innerHTML = '<tr><td colspan="3" class="empty">No items</td></tr>'; return; }
+  items.forEach((it, idx) => {
+    const tr = document.createElement('tr');
+    tr.innerHTML = `<td>${it.product_name||it.product_id}</td><td>${it.quantity}</td><td><button class="btn secondary" data-i="${idx}">Remove</button></td>`;
+    tb.appendChild(tr);
+  });
+  tb.querySelectorAll('button[data-i]').forEach(b=> b.addEventListener('click', e => { items.splice(+e.target.dataset.i,1); renderItems(); }));
+}
+
+el('#to_warehouse')?.addEventListener('change', e=> loadLocations(e.target.value));
+el('#addItem')?.addEventListener('click', async ()=>{
+  const pid = prompt('Product id or SKU'); if(!pid) return;
+  const qty = prompt('Quantity'); if(!qty || isNaN(qty)) return showToast('Invalid qty','error');
+  let pname = pid;
+  try{ const p = await apiFetch(`/products?sku=${encodeURIComponent(pid)}`); if(p && p.length) pname = p[0].product_name; } catch(e){}
+  items.push({ product_id: pid, product_name: pname, quantity: parseInt(qty,10) });
   renderItems();
 });
 
-document.getElementById('saveBtn').addEventListener('click', async () => {
+el('#saveBtn')?.addEventListener('click', async ()=>{
   try{
-    const payload = { vendor: document.getElementById('vendor').value, ref: document.getElementById('ref').value, items };
-    // create or update
-    if(receiptId){
-      await apiFetch(`/receipts/${receiptId}`, { method: 'PUT', body: payload });
+    const payload = {
+      reference: el('#reference').value,
+      from_contact: el('#from_contact').value,
+      warehouse_id: el('#to_warehouse').value || null,
+      location_id: el('#to_location').value || null,
+      schedule_date: el('#schedule_date').value,
+      status: 'draft',
+      items
+    };
+    if(rid){
+      await apiFetch(`/receipts/${rid}`, { method: 'PUT', body: payload });
       showToast('Saved');
     } else {
       const res = await apiFetch('/receipts', { method: 'POST', body: payload });
@@ -49,30 +60,27 @@ document.getElementById('saveBtn').addEventListener('click', async () => {
   }catch(err){ console.error(err); showToast('Save failed','error'); }
 });
 
-document.getElementById('validateBtn').addEventListener('click', async () => {
+el('#validateBtn')?.addEventListener('click', async ()=>{
+  if(!rid){ showToast('Save before validating','error'); return; }
   if(!confirm('Validate receipt and add stock?')) return;
   try{
-    if(receiptId){
-      await apiFetch(`/receipts/${receiptId}/validate`, { method: 'POST' });
-      showToast('Validated');
-      location.href = 'receipts.html';
-    } else {
-      const res = await apiFetch('/receipts', { method: 'POST', body: { vendor: document.getElementById('vendor').value, items } });
-      await apiFetch(`/receipts/${res.id}/validate`, { method: 'POST' });
-      showToast('Validated');
-      location.href = 'receipts.html';
-    }
-  }catch(err){ console.error(err); showToast('Validation failed','error'); }
+    await apiFetch(`/receipts/${rid}/validate`, { method: 'POST' });
+    showToast('Receipt validated');
+    location.href = 'receipts.html';
+  }catch(err){ console.error(err); showToast('Validate failed','error'); }
 });
 
 (async function init(){
-  if(receiptId){
+  await loadWarehousesForSelect();
+  if(rid){
     try{
-      const r = await apiFetch(`/receipts/${receiptId}`);
-      document.getElementById('vendor').value = r.vendor || '';
-      document.getElementById('ref').value = r.ref || '';
-      items = (r.items || []).map(it => ({ product_id: it.product_id, product_name: it.product_name, qty: it.qty }));
+      const r = await apiFetch(`/receipts/${rid}`);
+      el('#reference').value = r.reference || '';
+      el('#from_contact').value = r.from_contact || '';
+      el('#schedule_date').value = r.schedule_date ? r.schedule_date.split('T')[0] : '';
+      if(r.warehouse_id) { el('#to_warehouse').value = r.warehouse_id; await loadLocations(r.warehouse_id); el('#to_location').value = r.location_id || ''; }
+      items = (r.items || []).map(it => ({ product_id: it.product_id, product_name: it.product_name, quantity: it.quantity }));
       renderItems();
-    }catch(err){ console.warn(err); }
+    }catch(e){ console.warn(e); }
   }
 })();
